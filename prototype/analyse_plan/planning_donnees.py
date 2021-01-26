@@ -30,6 +30,11 @@ class Planning():
                 if agent in c:
                     resu += 1
         return resu*8
-    
+
+# Exemple de plan pour une semaine    
+# besoinsS1 = [[1,0,1], [0,2,0], [0,0,0], [1,1,1], [0,0,0], [0,0,0], [0,0,0]]
+# besoinsJcaS1 = [0, 0, 1, 0, 0, 0, 0]
+# planS1 = [[[1],[],[0],[]], [[],[0,1],[],[]], [[],[],[],[1]], [[0],[0],[1],[]], [[],[],[],[]], [[],[],[],[]], [[],[],[],[]]]
+# plan = planning.Planning(2, [besoinsS1], [besoinsJcaS1], [planS1], [1,1])
 
     
