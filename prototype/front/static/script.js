@@ -13,22 +13,29 @@
 let planningJson = [];
 let agentsJson = [];
 
-
+let planningWeek = 0;
 
 const periodeJour = ["matin", "soir", "nuit", "sve", "jca"];
 const semaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 
-function updatePlanning() {
+let rd = undefined;
+
+function updatePlanning(reinitRedips=true) {
+    // On vide la table
+    if (rd) rd.clearTable("planning");
+	const planningTable = document.getElementById("planning");
+	
 	// Pour chaque jour de la semaine
-	for (let i = 0; i < Math.min(7, planningJson.length); i++){
+	for (let i = planningWeek*7; i < Math.min((planningWeek+1)*7, planningJson.length); i++) {
 		// Pour chaque periode de la journée (matin, soir, nuit, sve ou jca)
 		for (const [key, values] of Object.entries(planningJson[i])) {
+		    console.log(key, values);
 			if (periodeJour.includes(key)) {
 				// Pour chaque agent travaillant durant cette période
 				for(let j = 0; j < values.length; j++) {
 					const trjours = document.getElementById(key);
-					var td = Array.from(trjours.children).find(child => child.className == semaine[i]);
-
+					var td = Array.from(trjours.children).find(child => child.className == semaine[i % 7]);
+                    console.log(trjours.children);
 					if (td.innerText === "") {
 						td.innerHTML = `<div class="redips-drag">`+ values[j] +`</div>`;
 					}
@@ -43,10 +50,13 @@ function updatePlanning() {
 			}
 		}
 	}
+	if (reinitRedips) initRedips();
 }
 
-function updateAgents() {
+function updateAgents(reinitRedips=true) {
+    // On vide la table
 	const agentsTable = document.getElementById("agents");
+	agentsTable.innerHTML = '';
 	const tbody = document.createElement("tbody");
 
 	// Numéros
@@ -80,13 +90,13 @@ function updateAgents() {
 	}
 	tbody.append(pourcentageTR);
 	agentsTable.append(tbody);
+	if (reinitRedips) initRedips();
 }
 
 // A appeler à la toute fin de la fonction "init"
 function initRedips() {
-	const rd = REDIPS.drag;
+	rd = REDIPS.drag;
 	rd.init();
-	console.log(rd.saveContent("planning", "json")); // TODO
 	rd.event.dropped = function (targetCell) {
 		console.log(targetCell);
 		console.log(targetCell.className);
@@ -98,13 +108,21 @@ function initRedips() {
 function init() {
 	const promisePlanning = fetch("/planning_json").then(res => res.json().then(r => {
 		planningJson = r;
-		updatePlanning();
+		updatePlanning(false);
 	}));
 	const agentsPlanning = fetch("/agents_json").then(res => res.json().then(r => {
 		agentsJson = r;
-		updateAgents();
+		updateAgents(false);
 	}));
 	Promise.all([promisePlanning, agentsPlanning]).then(() => initRedips());
+	document.getElementById("previous").addEventListener('click', () => {
+	    planningWeek = Math.max(0, planningWeek-1);
+	    updatePlanning();
+	});
+	document.getElementById("next").addEventListener('click', () => {
+	    planningWeek++;
+	    updatePlanning();
+	});
 };
 
 // add onload event listener
