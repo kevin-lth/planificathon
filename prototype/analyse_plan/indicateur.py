@@ -1,8 +1,8 @@
 import planning_donnees as planning
 
 
-#Je m'interesse uniquement au creneau nuit mais possible d'etendre aux autres creneaux si plus de temps
-#indicateur à 3 si ecart depasse 120% du seuil
+#indicateur concernant l'iniquité de la répartition des creneaux selon leur iniquité.
+#indicateur à 3 si ecart depasse 150% du seuil
 def indicateurCreneaux(plan):
     resu = []
     for c in range(3):
@@ -30,13 +30,16 @@ def indicateurCreneaux(plan):
         ecart = max/plan.proratas[agent_max] - min/plan.proratas[agent_min]
         if ecart < plan.seuilEquiteCreneaux:
             indicateur = 1
-        elif ecart < plan.seuilEquiteCreneaux*1.2:
+        elif ecart < plan.seuilEquiteCreneaux*1.5:
             indicateur = 2
         else:
             indicateur = 3
         resu.append((indicateur, agent_max))
     return resu
 
+
+#indicateur concernant l'iniquité de la répartition des jca selon leur iniquité.
+#indicateur à 3 si ecart depasse 150% du seuil
 def indicateurJca(plan):
     c = 3
     nb = 0

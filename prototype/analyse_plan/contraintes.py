@@ -3,7 +3,7 @@ import planning_donnees as planning
 
 
 
-#Contrainte de couverture des besoins de l'hopital
+#Contrainte de couverture des besoins de l'hopital, revoie si l'alerte est trigger et l'ensembles des (semaine, jour, creneau) qui trigger l'alerte
 def besoinsOK(plan):
     resu = []
     for s in range(plan.nombreSemaines):
@@ -13,7 +13,7 @@ def besoinsOK(plan):
                     resu.append((s,j,c))
     return len(resu) != 0, resu
 
-#Contrainte de couverture des besoins en Jca de l'hopital
+#Contrainte de couverture des besoins en Jca de l'hopital , revoie si l'alerte est trigger et l'ensembles des (semaine, jour) qui trigger l'alerte
 def besoinsJcaOK(plan):
     resu = []
     for s in range(plan.nombreSemaines):
@@ -23,7 +23,7 @@ def besoinsJcaOK(plan):
                 resu.append((s,j))
     return len(resu) != 0, resu
 
-#Contrainte d'encadrement de durée de travail par semaine
+#Contrainte d'encadrement de durée de travail par semaine, revoie si l'alerte est trigger et l'ensembles des (agent, semaine) qui trigger l'alerte
 def encadrementDureeTravail(plan):
     resu = []
     for a in range(plan.nbAgents):
@@ -33,6 +33,7 @@ def encadrementDureeTravail(plan):
                 resu.append((a,s))
     return len(resu) != 0, resu
 
+#Contrainte de repos journalière, revoie si l'alerte est trigger et l'ensembles des (agent, semaine, jour) qui trigger l'alerte
 def reposJournalier(plan):
     resu = []
     for a in range(plan.nbAgents):
@@ -46,12 +47,13 @@ def reposJournalier(plan):
                     resu.append((a,s,j))
     return len(resu) != 0, resu
 
-#fonctionne pas
+#Contrainte pas de travail un jour seul, au moins 2 jours consecutifs, revoie si l'alerte est trigger et l'ensembles des (agent, semaine, jour) qui trigger l'alerte
 def jourIsole(plan):
     resu = []
     for a in range(plan.nbAgents):
         for s in range(plan.nombreSemaines):
             for j in range(7):
+                bool = False
                 if plan.agentTravailATelleDate(a, s, j):
                     bool = True
                     if j < 6:
@@ -99,12 +101,14 @@ if __name__ == "__main__":
     print(reposJournalier(planOK))
     print()
 
+    print(planOK.agentTravailATelleDate(0,0,4))
+    print(planOK.agentTravailATelleDate(0,0,5))
     print(jourIsole(planOK))
     print()
     
 # agents, semaine, jour, creneau sont des int
 # indicateurs gravité croissante de 1 à 3
-# {"alertes : 
+# {"alertes" : 
 #   {"besoin incomplets" : [boolean, array[semaine, jour, creneau]],
 #    "besoin jca incomplets" : [boolean , array[semaine, jour]],
 #    "duree de travail hebdomadaire invalide" : [boolean, array[agent, semaine, jour]],
