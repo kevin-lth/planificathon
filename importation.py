@@ -92,7 +92,6 @@ besoins_soir = [sheet.cell(column=c, row=nb_agents+agent_row_start+1).value for 
 besoins_nuit = [sheet.cell(column=c, row=nb_agents+agent_row_start+2).value for c in range(4, column_count)]
 besoins_sve = [sheet.cell(column=c, row=nb_agents+agent_row_start+3).value for c in range(4, column_count)]
 nb_jca = [sheet.cell(column=c, row=nb_agents+agent_row_start+4).value for c in range(4, column_count)]
-print(besoins_matin)
 
 planning = []
 for d in range(column_count - 4):
@@ -129,7 +128,7 @@ for d in range(column_count - 4):
 with open('planning.json', 'w') as jsfile:
     lsjours =[]
     for j in planning:
-        lsjours.append(j.to_json())
+        lsjours.append(j.to_dict())
     json.dump(lsjours, jsfile)
 with open('agents.json', 'w') as jsfile:
     json.dump(liste_des_agents, jsfile)
