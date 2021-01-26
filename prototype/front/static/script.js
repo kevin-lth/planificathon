@@ -10,24 +10,26 @@
 /* enable strict mode */
 "use strict";
 
-const agentsNumber = 10;
-var planningJson = [];
-var agentsJson = [];
+let planningJson = [];
+let agentsJson = [];
+
+
+
 const periodeJour = ["matin", "soir", "nuit", "sve", "jca"];
 const semaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 
-function updatePlanning(){
+function updatePlanning() {
 	// Pour chaque jour de la semaine
-	for(let i = 0; i < 7; i++){
+	for (let i = 0; i < Math.min(7, planningJson.length); i++){
 		// Pour chaque periode de la journée (matin, soir, nuit, sve ou jca)
-		for(const [key, values] of Object.entries(planningJson[i])) {
-			if(periodeJour.includes(key)) {
+		for (const [key, values] of Object.entries(planningJson[i])) {
+			if (periodeJour.includes(key)) {
 				// Pour chaque agent travaillant durant cette période
 				for(let j = 0; j < values.length; j++) {
 					const trjours = document.getElementById(key);
 					var td = Array.from(trjours.children).find(child => child.className == semaine[i]);
 
-					if(td.innerText === "") {
+					if (td.innerText === "") {
 						td.innerHTML = `<div class="redips-drag">`+ values[j] +`</div>`;
 					}
 					else {
