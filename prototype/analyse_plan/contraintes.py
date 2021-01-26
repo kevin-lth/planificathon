@@ -52,6 +52,7 @@ def jourIsole(plan):
     for a in range(plan.nbAgents):
         for s in range(plan.nombreSemaines):
             for j in range(7):
+                bool = False
                 if plan.agentTravailATelleDate(a, s, j):
                     bool = True
                     if j < 6:
@@ -99,6 +100,8 @@ if __name__ == "__main__":
     print(reposJournalier(planOK))
     print()
 
+    print(planOK.agentTravailATelleDate(0,0,4))
+    print(planOK.agentTravailATelleDate(0,0,5))
     print(jourIsole(planOK))
     print()
     
