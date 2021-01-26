@@ -1,0 +1,107 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<meta name="author" content="Darko Bunic"/>
+		<meta name="description" content="Drag and drop table content with JavaScript"/>
+		<meta name="viewport" content="width=device-width, user-scalable=no"/><!-- "position: fixed" fix for Android 2.2+ -->
+		<link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
+		<script type="text/javascript" src="/static/header.js"></script>
+		<script type="text/javascript" src="/static/redips-drag-min.js"></script>
+		<script type="text/javascript" src="/static/script.js"></script>
+		<title>Dragging table for CHU</title>
+	</head>
+	<body>
+		<center>
+			<!-- tables inside this DIV could contain drag-able content  -->
+			<div id="redips-drag">
+				<p style="margin: 10px;">
+					Agents
+				</p>
+				<table id="agents"></table>
+				<br/>
+				<table id="planning">	
+					<colgroup>
+						<col width="100"/>
+						<col width="100"/>
+						<col width="100"/>
+						<col width="100"/>
+						<col width="100"/>
+						<col width="100"/>
+						<col width="100"/>
+						<col width="100"/>
+					</colgroup>
+					<tbody>
+						<tr id="semaine">
+							<td class="redips-mark"></td>
+							<td class="redips-mark">Lundi</td>
+							<td class="redips-mark">Mardi</td>
+							<td class="redips-mark">Mercredi</td>
+							<td class="redips-mark">Jeudi</td>
+							<td class="redips-mark">Vendredi</td>
+							<td class="redips-mark">Samedi</td>
+							<td class="redips-mark">Dimanche</td>
+						</tr>
+						<tr id="matin">
+							<td class="redips-mark">M</td>
+							<td id="test" class="lundi"></td>
+							<td class="mardi"></td>
+							<td class="mercredi"></td>
+							<td class="jeudi"></td>
+							<td class="vendredi"></td>
+							<td class="samedi"></td>
+							<td class="dimanche"></td>
+						</tr>
+						<tr id="soir">
+							<td class="redips-mark">S</td>
+							<td class="lundi"></td>
+							<td class="mardi"></td>
+							<td class="mercredi"></td>
+							<td class="jeudi"></td>
+							<td class="vendredi"></td>
+							<td class="samedi"></td>
+							<td class="dimanche"></td>
+						</tr>
+						<tr id="nuit">
+							<td class="redips-mark">N</td>
+							<td class="lundi"></td>
+							<td class="mardi"></td>
+							<td class="mercredi"></td>
+							<td class="jeudi"></td>
+							<td class="vendredi"></td>
+							<td class="samedi"></td>
+							<td class="dimanche"></td>
+						</tr>
+						<tr id="sve">
+							<td class="redips-mark">Sve</td>
+							<td class="lundi"></td>
+							<td class="mardi"></td>
+							<td class="mercredi"></td>
+							<td class="jeudi"></td>
+							<td class="vendredi"></td>
+							<td class="samedi"></td>
+							<td class="dimanche"></td>
+						</tr>
+						<tr id="jca">
+							<td class="redips-mark">Jca</td>
+							<td class="lundi"></td>
+							<td class="mardi"></td>
+							<td class="mercredi"></td>
+							<td class="jeudi"></td>
+							<td class="vendredi"></td>
+							<td class="samedi"></td>
+							<td class="dimanche"></td>
+						</tr>
+					</tbody>
+				</table>
+				<table id="trash">
+					<colgroup>
+						<col width="100"/>
+					</colgroup>
+					<tbody>
+						<tr><td class="redips-trash"><b>Poubelle</b></td></tr>
+					</tbody>
+				</table>
+			</div>
+		</center>
+	</body>
+</html>
