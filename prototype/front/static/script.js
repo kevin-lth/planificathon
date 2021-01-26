@@ -23,29 +23,20 @@ let rd = undefined;
 function updatePlanning(reinitRedips=true) {
     // On vide la table
     if (rd) rd.clearTable("planning");
-	const planningTable = document.getElementById("planning");
 	
 	// Pour chaque jour de la semaine
 	for (let i = planningWeek*7; i < Math.min((planningWeek+1)*7, planningJson.length); i++) {
 		// Pour chaque periode de la journée (matin, soir, nuit, sve ou jca)
 		for (const [key, values] of Object.entries(planningJson[i])) {
-		    console.log(key, values);
 			if (periodeJour.includes(key)) {
+				const trjours = document.getElementById(key);
+				const td = Array.from(trjours.children).find(child => child.className == semaine[i % 7]);
 				// Pour chaque agent travaillant durant cette période
 				for(let j = 0; j < values.length; j++) {
-					const trjours = document.getElementById(key);
-					var td = Array.from(trjours.children).find(child => child.className == semaine[i % 7]);
-                    console.log(trjours.children);
-					if (td.innerText === "") {
-						td.innerHTML = `<div class="redips-drag">`+ values[j] +`</div>`;
-					}
-					else {
-						const a = td.innerText.split("\n");
-						td.innerHTML = `<div class="redips-drag">`+ values[j] +`</div>`;
-						for(let k = 0; k < a.length; k++) {
-							td.innerHTML += `<div class="redips-drag">`+ a[k] +`</div>`;
-						}
-					}
+					const div = document.createElement("div");
+					div.classList.add("redips-drag");
+					div.textContent = values[j];
+					td.append(div);
 				}
 			}
 		}
@@ -63,7 +54,7 @@ function updateAgents(reinitRedips=true) {
 	const numeroTR = document.createElement("tr");
 	const numeroTH = document.createElement("th");
 	numeroTH.classList.add("redips-rowhandler");
-	numeroTH.innerHTML = "Numéro agent";
+	numeroTH.textContent = "Numéro agent";
 	numeroTR.append(numeroTH);
 	tbody.append(numeroTR);
 	
@@ -79,13 +70,13 @@ function updateAgents(reinitRedips=true) {
 	let pourcentageTR = document.createElement("tr");
 	let pourcentageTH = document.createElement("th");
 	pourcentageTH.classList.add("redips-rowhandler");
-	pourcentageTH.innerHTML = "Pourcentage jours travaillés";
+	pourcentageTH.textContent = "Pourcentage jours travaillés";
 	pourcentageTR.append(pourcentageTH);
 
 	for (let i = 0; i < agentsJson.length; i++) {		
 		const pourcentageTD = document.createElement("td");
 	    pourcentageTD.classList.add("redips-mark");
-		pourcentageTD.innerHTML = agentsJson[i].pourcentage + '%';
+		pourcentageTD.textContent = agentsJson[i].pourcentage + '%';
 		pourcentageTR.append(pourcentageTD);
 	}
 	tbody.append(pourcentageTR);
