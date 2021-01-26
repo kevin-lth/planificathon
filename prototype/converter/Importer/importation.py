@@ -92,6 +92,11 @@ besoins_soir = [sheet.cell(column=c, row=nb_agents+agent_row_start+1).value for 
 besoins_nuit = [sheet.cell(column=c, row=nb_agents+agent_row_start+2).value for c in range(4, column_count)]
 besoins_sve = [sheet.cell(column=c, row=nb_agents+agent_row_start+3).value for c in range(4, column_count)]
 nb_jca = [sheet.cell(column=c, row=nb_agents+agent_row_start+4).value for c in range(4, column_count)]
+print(nb_jca)
+for k in range(len(nb_jca)):
+    if nb_jca[k] is None:
+        nb_jca[k] = 0
+
 
 planning = []
 for d in range(column_count - 4):
