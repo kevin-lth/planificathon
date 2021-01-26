@@ -25,7 +25,7 @@ div#redips-drag table {
 }
 
 /* table cells */
-div#redips-drag td {
+div#redips-drag td, div#redips-drag th {
 	border: 1px solid navy;
 	height: 50px;
 	text-align: center;

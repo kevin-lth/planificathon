@@ -6,7 +6,7 @@
 		<meta name="viewport" content="width=device-width, user-scalable=no"/><!-- "position: fixed" fix for Android 2.2+ -->
 		<link rel="stylesheet" href="/static/style.css" type="text/css" media="screen" />
 		<script type="text/javascript" src="/static/header.js"></script>
-		<script type="text/javascript" src="/static/redips-drag-min.js"></script>
+		<script type="text/javascript" src="/static/redips/redips-drag-min.js"></script>
 		<script type="text/javascript" src="/static/script.js"></script>
 		<title>Dragging table for CHU</title>
 	</head>
@@ -19,31 +19,21 @@
 				</p>
 				<table id="agents"></table>
 				<br/>
-				<table id="planning">	
-					<colgroup>
-						<col width="100"/>
-						<col width="100"/>
-						<col width="100"/>
-						<col width="100"/>
-						<col width="100"/>
-						<col width="100"/>
-						<col width="100"/>
-						<col width="100"/>
-					</colgroup>
+				<table id="planning">
 					<tbody>
 						<tr id="semaine">
-							<td class="redips-mark"></td>
-							<td class="redips-mark">Lundi</td>
-							<td class="redips-mark">Mardi</td>
-							<td class="redips-mark">Mercredi</td>
-							<td class="redips-mark">Jeudi</td>
-							<td class="redips-mark">Vendredi</td>
-							<td class="redips-mark">Samedi</td>
-							<td class="redips-mark">Dimanche</td>
+							<td class="redips-rowhandler"></td>
+							<td class="redips-rowhandler">Lundi</td>
+							<td class="redips-rowhandler">Mardi</td>
+							<td class="redips-rowhandler">Mercredi</td>
+							<td class="redips-rowhandler">Jeudi</td>
+							<td class="redips-rowhandler">Vendredi</td>
+							<td class="redips-rowhandler">Samedi</td>
+							<td class="redips-rowhandler">Dimanche</td>
 						</tr>
 						<tr id="matin">
-							<td class="redips-mark">M</td>
-							<td id="test" class="lundi"></td>
+							<td class="redips-rowhandler">M</td>
+							<td class="lundi"></td>
 							<td class="mardi"></td>
 							<td class="mercredi"></td>
 							<td class="jeudi"></td>
@@ -52,7 +42,7 @@
 							<td class="dimanche"></td>
 						</tr>
 						<tr id="soir">
-							<td class="redips-mark">S</td>
+							<td class="redips-rowhandler">S</td>
 							<td class="lundi"></td>
 							<td class="mardi"></td>
 							<td class="mercredi"></td>
@@ -62,7 +52,7 @@
 							<td class="dimanche"></td>
 						</tr>
 						<tr id="nuit">
-							<td class="redips-mark">N</td>
+							<td class="redips-rowhandler">N</td>
 							<td class="lundi"></td>
 							<td class="mardi"></td>
 							<td class="mercredi"></td>
@@ -72,7 +62,7 @@
 							<td class="dimanche"></td>
 						</tr>
 						<tr id="sve">
-							<td class="redips-mark">Sve</td>
+							<td class="redips-rowhandler">Sve</td>
 							<td class="lundi"></td>
 							<td class="mardi"></td>
 							<td class="mercredi"></td>
@@ -82,7 +72,7 @@
 							<td class="dimanche"></td>
 						</tr>
 						<tr id="jca">
-							<td class="redips-mark">Jca</td>
+							<td class="redips-rowhandler">Jca</td>
 							<td class="lundi"></td>
 							<td class="mardi"></td>
 							<td class="mercredi"></td>

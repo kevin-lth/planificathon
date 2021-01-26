@@ -8,11 +8,7 @@
 /* global REDIPS */
 
 /* enable strict mode */
-'use strict';
-
-
-// create redips container
-let redips = {};
+"use strict";
 
 const agentsNumber = 10;
 var planningJson = [];
@@ -20,10 +16,7 @@ var agentsJson = [];
 const periodeJour = ["matin", "soir", "nuit", "sve", "jca"];
 const semaine = ["lundi", "mardi", "mercredi", "jeudi", "vendredi", "samedi", "dimanche"];
 
-function fillPlanning(){
-	console.log(planningJson);
-	console.log(agentsJson);
-	
+function updatePlanning(){
 	// Pour chaque jour de la semaine
 	for(let i = 0; i < 7; i++){
 		// Pour chaque periode de la journée (matin, soir, nuit, sve ou jca)
@@ -33,7 +26,7 @@ function fillPlanning(){
 				for(let j = 0; j < values.length; j++) {
 					const trjours = document.getElementById(key);
 					var td = Array.from(trjours.children).find(child => child.className == semaine[i]);
-					
+
 					if(td.innerText === "") {
 						td.innerHTML = `<div class="redips-drag">`+ values[j] +`</div>`;
 					}
@@ -50,53 +43,48 @@ function fillPlanning(){
 	}
 }
 
-function fillAgents() {
-	var agentsTable = document.getElementById("agents");
-
-	const colGroup = document.createElement("colgroup");
+function updateAgents() {
+	const agentsTable = document.getElementById("agents");
 	const tbody = document.createElement("tbody");
-	let col = document.createElement("col");
-	col.width = 100;
-	colGroup.append(col);
 
 	// Numéros
-	let trnumero = document.createElement("tr");
-	let numeroTD = document.createElement("td");
-	numeroTD.innerHTML = `<div class="redips-mark">Numéro agent</div>`;
-	trnumero.append(numeroTD);
-	tbody.append(trnumero);
-	for(let i = 0; i < agentsJson.length; i++) {
-		let col = document.createElement("col");
-		col.width = 100;
-		colGroup.append(col);
-		let numeroTD = document.createElement("td");
+	const numeroTR = document.createElement("tr");
+	const numeroTH = document.createElement("th");
+	numeroTH.classList.add("redips-rowhandler");
+	numeroTH.innerHTML = "Numéro agent";
+	numeroTR.append(numeroTH);
+	tbody.append(numeroTR);
+	
+	for (let i = 0; i < agentsJson.length; i++) {
+		const numeroTD = document.createElement("td");
+	    numeroTD.classList.add("redips-mark");
 		numeroTD.innerHTML = `<div class="redips-drag redips-clone">`+ agentsJson[i].numero +`</div>`;
-		trnumero.append(numeroTD);
-		tbody.append(trnumero);
+		numeroTR.append(numeroTD);
 	}
+	tbody.append(numeroTR);
 
 	// Pourcentages
-	let tr = document.createElement("tr");
-	let td = document.createElement("td");
-	td.innerHTML = `<div class="redips-mark">Pourcentage jours travaillés</div>`;
-	tr.append(td);
-	tbody.append(tr);
+	let pourcentageTR = document.createElement("tr");
+	let pourcentageTH = document.createElement("th");
+	pourcentageTH.classList.add("redips-rowhandler");
+	pourcentageTH.innerHTML = "Pourcentage jours travaillés";
+	pourcentageTR.append(pourcentageTH);
 
-	for(let i = 0; i < agentsJson.length; i++) {		
-		let pourcentageTD = document.createElement("td");
-		pourcentageTD.innerHTML = `<div class="redips-mark">`+ agentsJson[i].pourcentage +`%</div>`;
-		tr.append(pourcentageTD);
-		tbody.append(tr);
+	for (let i = 0; i < agentsJson.length; i++) {		
+		const pourcentageTD = document.createElement("td");
+	    pourcentageTD.classList.add("redips-mark");
+		pourcentageTD.innerHTML = agentsJson[i].pourcentage + '%';
+		pourcentageTR.append(pourcentageTD);
 	}
-
-	agentsTable.append(colGroup);
+	tbody.append(pourcentageTR);
 	agentsTable.append(tbody);
 }
 
-// A appeler à la toute fin de la fonction redips.init
-function redipsInit() {
-	let rd = REDIPS.drag;
+// A appeler à la toute fin de la fonction "init"
+function initRedips() {
+	const rd = REDIPS.drag;
 	rd.init();
+	console.log(rd.saveContent("planning", "json")); // TODO
 	rd.event.dropped = function (targetCell) {
 		console.log(targetCell);
 		console.log(targetCell.className);
@@ -105,28 +93,19 @@ function redipsInit() {
 	}
 }
 
-redips.init = function () {
-
-	fetch("http://localhost:8000/planning_json")
-	.then(res => res.json().then(r => {
+function init() {
+	const promisePlanning = fetch("/planning_json").then(res => res.json().then(r => {
 		planningJson = r;
-		fetch("http://localhost:8000/agents_json")
-		.then(res => res.json().then(r => {
-			agentsJson = r;
-			fillPlanning();
-			fillAgents();
-
-			redipsInit();
-		}))
+		updatePlanning();
 	}));
+	const agentsPlanning = fetch("/agents_json").then(res => res.json().then(r => {
+		agentsJson = r;
+		updateAgents();
+	}));
+	Promise.all([promisePlanning, agentsPlanning]).then(() => initRedips());
 };
 
-
 // add onload event listener
-if (window.addEventListener) {
-	window.addEventListener('load', redips.init, false);
-}
-else if (window.attachEvent) {
-	window.attachEvent('onload', redips.init);
-}
+window.addEventListener('DOMContentLoaded', init);
+
 
