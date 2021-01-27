@@ -72,13 +72,12 @@ function exportData(sendToServer=false) {
             agentsJson[n-1][periodeJour[x-1]][planningWeek*7 + y-1] = 1
 		}
 
-		// TODO: sendToServer
-		/*fetch('/update_planning', {
+		fetch('/indicator/update_planning', {
 			method: 'PUT',
 			headers: {
-			'Content-Type': 'application/json'
+			    'Content-Type': 'application/json'
 			},
-			body: JSON.stringify(planningJson)
+			body: JSON.stringify({ "planning": planningJson, "agents": agentsJson })
 		}).then(res => res.json().then(r => {
 			alertes = r["contraintes"];
 			indicateurs = r["indicateurs"];
@@ -88,7 +87,7 @@ function exportData(sendToServer=false) {
 			indicateurCreneau.innerHTML = `Equitable pénibilité : <b>`+ indicateurs.equiteCreneau[0][0] +`</b>`
 			alerteBesoins.innerHTML = `Il reste des personnes à attribuer : <b>`+ alertes.besoins[0] +`</b>`
 			indicateurJca.innerHTML = `Equitable jca : <b>`+ indicateurs.equiteJca[0] +`</b>`
-		}));*/
+		}));
     } else return [];
 }
 

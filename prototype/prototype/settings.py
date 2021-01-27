@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'front.apps.FrontConfig',
     'converter.apps.ConverterConfig',
+    'indicator.apps.IndicatorConfig',
 ]
 
 MIDDLEWARE = [

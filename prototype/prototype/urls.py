@@ -18,6 +18,7 @@ from django.urls import path, include
 
 urlpatterns = [
     path('converter/', include('converter.urls')),
+    path('indicator/', include('indicator.urls')),
     path('admin/', admin.site.urls),
     path('', include('front.urls')),
 ]
