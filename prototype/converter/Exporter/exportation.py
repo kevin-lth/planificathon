@@ -92,15 +92,8 @@ def ecrire_xlxs(path_agentjs, path_planjs, outputxlxs):
             cellule = sheet.cell(row=firstr + nb_agents + r, column=numc)
             cellule.value = dictjours[day][besoin]
             cellule.alignment = centrer
-            
 
- 
-
-
-        
-
-
-    wk.save(filename=filename)
+    wk.save(filename=outputxlxs)
 
 
 if __name__ == "__main__":
