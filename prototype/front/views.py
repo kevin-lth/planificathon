@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, JsonResponse
-import json
+import jsonq
 from django.views.decorators.csrf import csrf_exempt
 from . import lect_json
 
