@@ -43,7 +43,7 @@ function updatePlanning(reinitRedips=true) {
 			}
 			else {
 				const trbesoin = document.getElementById(key);
-				const td = Array.from(trbesoin.children).find(child => child.className == semaine[i % 7]);
+				const td = Array.from(trbesoin.children).find(child => child.classList.contains(semaine[i % 7]));
 				td.innerHTML = values;
 			}
 		}
