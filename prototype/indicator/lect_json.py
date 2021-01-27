@@ -62,29 +62,3 @@ def lecture(data):
 
     return (nb_agents, besoins, besoinsJca, plan, prorata)
 
-
-
-
-
-
-
-# print(nb_agents)
-# print(liste_des_agents)
-# with open('planning.json', 'w') as jsfile:
-#     lsjours =[]
-#     for j in planning:
-#         lsjours.append(j.to_dict())
-#     json.dump(lsjours, jsfile)
-# with open('agents.json', 'w') as jsfile:
-#     json.dump(liste_des_agents, jsfile)
-# 
-if __name__ == "__main__":
-    chemin_plan = "../converter/Importer/planning.json"
-    chemin_agents = "../converter/Importer/agents.json"
-    planok = pld.Planning(*lecture(chemin_plan, chemin_agents))
-    print(lecture(chemin_plan, chemin_agents)[1])
-    print(ct.besoinsOK(planok))
-
-
-
-
