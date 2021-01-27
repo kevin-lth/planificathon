@@ -12,6 +12,8 @@
 
 let planningJson = [];
 let agentsJson = [];
+let alertes = {};
+let indicateurs = {};
 
 let planningWeek = 0;
 
@@ -49,14 +51,40 @@ function exportPlanning(sendToServer=false) {
         const content = JSON.parse(rd.saveContent("planning", "json"));
 	    for (let i = planningWeek*7; i < Math.min((planningWeek+1)*7, planningJson.length); i++) {
 	        for (let j = 0; j < periodeJour.length; j++) planningJson[i][periodeJour[j]] = [];
-	    }
+		}
 	    for (let i = 0; i < content.length; i++) {
 	        const x = content[i][1];
 	        const y = content[i][2];
-	        const n = content[i][4];
+			const n = content[i][4];
 	        planningJson[planningWeek*7 + y-1][periodeJour[x-1]].push(parseInt(n));
-	    }
-        // TODO: sendToServer
+		}
+
+		// for(let i = 0; i < agentsJson.length; i++) {
+		// 	for(let j = 0; j < agentsJson[i]["jca"].length; j++) {
+		// 		for(let k = 0; k < planningJson.length; k++) {
+					
+		// 		}
+		// 		// console.log(agentsJson[i]["jca"][j]);		
+		// 	}
+		// }
+
+		// TODO: sendToServer
+		fetch('/update_planning', {
+			method: 'PUT',
+			headers: {
+			'Content-Type': 'application/json'
+			},
+			body: JSON.stringify(planningJson)
+		}).then(res => res.json().then(r => {
+			alertes = r["contraintes"];
+			indicateurs = r["indicateurs"];
+			const indicateurCreneau = document.getElementById("indicateur-creneau");
+			const alerteBesoins = document.getElementById("alerte-besoins");
+			const indicateurJca = document.getElementById("indicateur-jca");
+			indicateurCreneau.innerHTML = `Equitable pénibilité : <b>`+ indicateurs.equiteCreneau[0][0] +`</b>`
+			alerteBesoins.innerHTML = `Il reste des personnes à attribuer : <b>`+ alertes.besoins[0] +`</b>`
+			indicateurJca.innerHTML = `Equitable jca : <b>`+ indicateurs.equiteJca[0] +`</b>`
+		}));
     } else return [];
 }
 
