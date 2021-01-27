@@ -12,6 +12,11 @@
 	</head>
 	<body>
 		<center>
+		    <form id="upload_form" method="POST" action="/converter/xlsx_to_json">
+		        <input type="text" name="sheet" />
+		        <input type="file" name="file" />
+		        <input type="submit" />
+		    </form>
 			<!-- tables inside this DIV could contain drag-able content  -->
 			<div id="redips-drag">
 				<p>Agents</p>
