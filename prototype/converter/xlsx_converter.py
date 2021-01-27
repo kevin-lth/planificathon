@@ -141,11 +141,11 @@ def xlsx_to_dict(filename, sheetname):
                     liste_des_agents.append(dict({'numero': nb_agents, 'pourcentage':sheet.cell(row=i,column=j+1).value}))
                     break
     for r in range(agent_row_start, agent_row_start+nb_agents):
-        matin = [1 if (sheet.cell(column=c, row=r).value == 'M') else 0 for c in range(4, column_count)]
-        soir = [1 if (sheet.cell(column=c, row=r).value == 'S') else 0 for c in range(4, column_count)]
-        nuit = [1 if (sheet.cell(column=c, row=r).value == 'N') else 0 for c in range(4, column_count)]
-        sve = [1 if (sheet.cell(column=c, row=r).value == 'Sve') else 0 for c in range(4, column_count)]
-        jca = [1 if (sheet.cell(column=c, row=r).value == 'Jca') else 0 for c in range(4, column_count)]
+        matin = [1 if (sheet.cell(column=c, row=r).value == 'M') else 0 for c in range(4, column_count+1)]
+        soir = [1 if (sheet.cell(column=c, row=r).value == 'S') else 0 for c in range(4, column_count+1)]
+        nuit = [1 if (sheet.cell(column=c, row=r).value == 'N') else 0 for c in range(4, column_count+1)]
+        sve = [1 if (sheet.cell(column=c, row=r).value == 'Sve') else 0 for c in range(4, column_count+1)]
+        jca = [1 if (sheet.cell(column=c, row=r).value == 'Jca') else 0 for c in range(4, column_count+1)]
         i = r - agent_row_start
         liste_des_agents[i]['matin'] = matin
         liste_des_agents[i]['soir'] = soir
@@ -153,16 +153,16 @@ def xlsx_to_dict(filename, sheetname):
         liste_des_agents[i]['sve'] = sve
         liste_des_agents[i]['jca'] = jca
 
-    besoins_matin = [sheet.cell(column=c, row=nb_agents+agent_row_start).value for c in range(4, column_count)]
-    besoins_soir = [sheet.cell(column=c, row=nb_agents+agent_row_start+1).value for c in range(4, column_count)]
-    besoins_nuit = [sheet.cell(column=c, row=nb_agents+agent_row_start+2).value for c in range(4, column_count)]
-    besoins_sve = [sheet.cell(column=c, row=nb_agents+agent_row_start+3).value for c in range(4, column_count)]
-    nb_jca = [sheet.cell(column=c, row=nb_agents+agent_row_start+4).value for c in range(4, column_count)]
+    besoins_matin = [sheet.cell(column=c, row=nb_agents+agent_row_start).value for c in range(4, column_count+1)]
+    besoins_soir = [sheet.cell(column=c, row=nb_agents+agent_row_start+1).value for c in range(4, column_count+1)]
+    besoins_nuit = [sheet.cell(column=c, row=nb_agents+agent_row_start+2).value for c in range(4, column_count+1)]
+    besoins_sve = [sheet.cell(column=c, row=nb_agents+agent_row_start+3).value for c in range(4, column_count+1)]
+    nb_jca = [sheet.cell(column=c, row=nb_agents+agent_row_start+4).value for c in range(4, column_count+1)]
     for k in range(len(nb_jca)):
         if nb_jca[k] is None:
             nb_jca[k] = 0
     planning = []
-    for d in range(column_count - 4):
+    for d in range(column_count - 3):
         bm = besoins_matin[d]
         bs = besoins_soir[d]
         bn = besoins_nuit[d]
