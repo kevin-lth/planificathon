@@ -44,6 +44,22 @@ function updatePlanning(reinitRedips=true) {
 	if (reinitRedips) initRedips();
 }
 
+function exportPlanning(sendToServer=false) {
+    if (rd) {
+        const content = JSON.parse(rd.saveContent("planning", "json"));
+	    for (let i = planningWeek*7; i < Math.min((planningWeek+1)*7, planningJson.length); i++) {
+	        for (let j = 0; j < periodeJour.length; j++) planningJson[i][periodeJour[j]] = [];
+	    }
+	    for (let i = 0; i < content.length; i++) {
+	        const x = content[i][1];
+	        const y = content[i][2];
+	        const n = content[i][4];
+	        planningJson[planningWeek*7 + y-1][periodeJour[x-1]].push(parseInt(n));
+	    }
+        // TODO: sendToServer
+    } else return [];
+}
+
 function updateAgents(reinitRedips=true) {
     // On vide la table
 	const agentsTable = document.getElementById("agents");
@@ -61,7 +77,7 @@ function updateAgents(reinitRedips=true) {
 	for (let i = 0; i < agentsJson.length; i++) {
 		const numeroTD = document.createElement("td");
 	    numeroTD.classList.add("redips-mark");
-		numeroTD.innerHTML = `<div class="redips-drag redips-clone">`+ agentsJson[i].numero +`</div>`;
+		numeroTD.innerHTML = `<div class="redips-drag redips-clone">${agentsJson[i].numero}</div>`;
 		numeroTR.append(numeroTD);
 	}
 	tbody.append(numeroTR);
@@ -86,14 +102,9 @@ function updateAgents(reinitRedips=true) {
 
 // A appeler à la toute fin de la fonction "init"
 function initRedips() {
-	rd = REDIPS.drag;
+	if (!rd) rd = REDIPS.drag;
 	rd.init();
-	rd.event.dropped = function (targetCell) {
-		console.log(targetCell);
-		console.log(targetCell.className);
-		console.log(targetCell.parentElement.id);
-		console.log(targetCell.innerText.split("\n"));
-	}
+	rd.event.dropped = () => exportPlanning();
 }
 
 function init() {
