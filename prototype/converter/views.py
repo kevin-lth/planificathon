@@ -1,4 +1,4 @@
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, FileResponse
 import json
 
 from django.core.files.temp import NamedTemporaryFile
@@ -18,6 +18,9 @@ def __handle_xlsx_file__(file, sheet, then):
         for chunk in file.chunks():
             destination.write(chunk)
         return then(destination.name, sheet)
+        
+def __send_xlsx_file__(filename):
+        return FileResponse(open(filename, 'rb')) 
 
 from django.views.decorators.csrf import csrf_exempt
 
@@ -29,3 +32,9 @@ def xlsx_to_json(request):
             result = __handle_xlsx_file__(request.FILES["file"], request.POST["sheet"], xlsx_converter.xlsx_to_dict)
             json_result = json.dumps(result)
             return HttpResponse(json_result, content_type='application/json')
+            
+@csrf_exempt
+def json_to_xlsx(request):
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        return xlsx_converter.dict_to_xlsx(data, __send_xlsx_file__)

@@ -118,11 +118,29 @@ function init() {
             body: form_data
         }).then(response => response.json())
           .then(result => {
-            console.log(result, result.planning, result.agents);
             planningJson = result.planning;
             agentsJson = result.agents;
 		    updatePlanning(false);
 		    updateAgents();
+        });
+	});
+	document.getElementById("export").addEventListener('click', () => {
+	    const data = {
+	        "planning": planningJson,
+	        "agents": agentsJson
+	    };
+	    fetch("/converter/json_to_xlsx", {
+	        method: "POST",
+	        body: JSON.stringify(data)
+        }).then(response => response.blob())
+          .then(blob => URL.createObjectURL(blob))
+          .then(uril => {
+            const link = document.createElement("a");
+            link.href = uril;
+            link.download = "export.xlsx";
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         });
 	});
 	document.getElementById("previous").addEventListener('click', () => {
