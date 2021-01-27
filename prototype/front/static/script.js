@@ -136,15 +136,23 @@ function initRedips() {
 }
 
 function init() {
-	const promisePlanning = fetch("/planning_json").then(res => res.json().then(r => {
-		planningJson = r;
-		updatePlanning(false);
-	}));
-	const agentsPlanning = fetch("/agents_json").then(res => res.json().then(r => {
-		agentsJson = r;
-		updateAgents(false);
-	}));
-	Promise.all([promisePlanning, agentsPlanning]).then(() => initRedips());
+	const upload_form = document.getElementById("upload_form");
+	upload_form.addEventListener('submit', (e) => {
+	    e.preventDefault();
+	    e.stopPropagation();
+        const form_data = new FormData(upload_form);
+        fetch(upload_form.action, {
+            method: upload_form.method,
+            body: form_data
+        }).then(response => response.json())
+          .then(result => {
+            console.log(result, result.planning, result.agents);
+            planningJson = result.planning;
+            agentsJson = result.agents;
+		    updatePlanning(false);
+		    updateAgents();
+        });
+	});
 	document.getElementById("previous").addEventListener('click', () => {
 	    planningWeek = Math.max(0, planningWeek-1);
 	    updatePlanning();
