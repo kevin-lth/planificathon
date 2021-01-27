@@ -51,30 +51,29 @@ function updatePlanning(reinitRedips=true) {
 	if (reinitRedips) initRedips();
 }
 
-function exportPlanning(sendToServer=false) {
+function exportData(sendToServer=false) {
     if (rd) {
         const content = JSON.parse(rd.saveContent("planning", "json"));
 	    for (let i = planningWeek*7; i < Math.min((planningWeek+1)*7, planningJson.length); i++) {
-	        for (let j = 0; j < periodeJour.length; j++) planningJson[i][periodeJour[j]] = [];
+	        for (let j = 0; j < periodeJour.length; j++) {
+	            planningJson[i][periodeJour[j]] = [];
+	        }
+		}
+	    for (let i = 0; i < agentsJson.length; i++) {
+	        for (let j = 0; j < periodeJour.length; j++) {
+		        agentsJson[i][periodeJour[j]].fill(0)
+	        }
 		}
 	    for (let i = 0; i < content.length; i++) {
 	        const x = content[i][1];
 	        const y = content[i][2];
-			const n = content[i][4];
-	        planningJson[planningWeek*7 + y-1][periodeJour[x-1]].push(parseInt(n));
+			const n = parseInt(content[i][4]);
+	        planningJson[planningWeek*7 + y-1][periodeJour[x-1]].push(n);
+            agentsJson[n-1][periodeJour[x-1]][planningWeek*7 + y-1] = 1
 		}
 
-		// for(let i = 0; i < agentsJson.length; i++) {
-		// 	for(let j = 0; j < agentsJson[i]["jca"].length; j++) {
-		// 		for(let k = 0; k < planningJson.length; k++) {
-					
-		// 		}
-		// 		// console.log(agentsJson[i]["jca"][j]);		
-		// 	}
-		// }
-
 		// TODO: sendToServer
-		fetch('/update_planning', {
+		/*fetch('/update_planning', {
 			method: 'PUT',
 			headers: {
 			'Content-Type': 'application/json'
@@ -89,7 +88,7 @@ function exportPlanning(sendToServer=false) {
 			indicateurCreneau.innerHTML = `Equitable pénibilité : <b>`+ indicateurs.equiteCreneau[0][0] +`</b>`
 			alerteBesoins.innerHTML = `Il reste des personnes à attribuer : <b>`+ alertes.besoins[0] +`</b>`
 			indicateurJca.innerHTML = `Equitable jca : <b>`+ indicateurs.equiteJca[0] +`</b>`
-		}));
+		}));*/
     } else return [];
 }
 
@@ -137,7 +136,7 @@ function updateAgents(reinitRedips=true) {
 function initRedips() {
 	if (!rd) rd = REDIPS.drag;
 	rd.init();
-	rd.event.dropped = () => exportPlanning();
+	rd.event.dropped = () => exportData();
 }
 
 function init() {
