@@ -1,5 +1,5 @@
 from openpyxl import Workbook
-from openpyxl.styles import Alignment, colors, Font, Color
+from openpyxl.styles import Alignment, colors, Font, Color, fills
 from openpyxl.utils.cell import range_boundaries
 import json
 from dataclasses import dataclass
@@ -34,25 +34,39 @@ def ecrire_xlxs(path_agentjs, path_planjs, outputxlxs):
     wk = Workbook()
     del wk['Sheet']
     sheet = wk.create_sheet(title='Feuil1')
+    redft = Font(color="00D00000", bold=True)
+    monjolicyan = colors.Color(rgb='0099CCFF')
+    remplircyan = fills.PatternFill(patternType='solid', fgColor=monjolicyan)
+    monjoliturquoise = colors.Color(rgb='0000FFFF')
+    remplirturquoise = fills.PatternFill(patternType='solid', fgColor=monjoliturquoise)
+    monjolijaune = colors.Color(rgb='00FFFF99')
+    remplirjaune = fills.PatternFill(patternType='solid', fgColor=monjolijaune)
 
     sheet["A2"] = "Agent"
     sheet["A2"].alignment = centrer
+    sheet["A2"].fill = remplirturquoise
     sheet["B2"] = "%"
     sheet["B2"].alignment = centrer
+    sheet["B2"].fill = remplirturquoise
     sheet["C2"] = "J/N"
     sheet["C2"].alignment = centrer
+    sheet["C2"].fill = remplirturquoise
+
     for r in range(3, nb_agents + 3):
         cellule = sheet.cell(row=r, column=1)
         cellule.value = r-2
         cellule.alignment = centrer
+        cellule.fill = remplirjaune
     for r in range(3, nb_agents + 3):
         cellule = sheet.cell(row=r, column=2)
         cellule.value = liste_des_agents[r-3]['pourcentage']
         cellule.alignment = centrer
+        cellule.fill = remplirjaune
     for r in range(3, nb_agents + 3):
         cellule = sheet.cell(row=r, column=3)
         cellule.value = 'J'
         cellule.alignment = centrer
+        cellule.fill = remplirjaune
 
     besoinstext = ['Besoins Matin', 'Besoins Soir', 'Besoins Nuit', 'Besoins Sve', 'Nb Jca']
     for r in range(3 + nb_agents, nb_agents + 3 + 5):
@@ -74,6 +88,8 @@ def ecrire_xlxs(path_agentjs, path_planjs, outputxlxs):
         numc = day + 4
         cellule = sheet.cell(column=numc, row=2)
         cellule.value = jours_de_la_semaine[day%7]
+        cellule.font = redft
+        cellule.fill = remplircyan
         cellule.alignment = centrer
 
     dict_convert_m = {'matin':'M', 'soir':'S', 'nuit':'N', 'jca':'Jca','sve':'Sve'}
