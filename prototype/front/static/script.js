@@ -41,6 +41,11 @@ function updatePlanning(reinitRedips=true) {
 					td.append(div);
 				}
 			}
+			else {
+				const trbesoin = document.getElementById(key);
+				const td = Array.from(trbesoin.children).find(child => child.className == semaine[i % 7]);
+				td.innerHTML = values;
+			}
 		}
 	}
 	if (reinitRedips) initRedips();

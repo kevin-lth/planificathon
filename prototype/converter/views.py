@@ -14,7 +14,7 @@ def index(request):
     return HttpResponse("Hello world. This is the converter !")
     
 def __handle_xlsx_file__(file, sheet, then):
-    with NamedTemporaryFile(delete=True, suffix=".xlsx") as destination:
+    with NamedTemporaryFile(suffix=".xlsx") as destination:
         for chunk in file.chunks():
             destination.write(chunk)
         return then(destination.name, sheet)
